@@ -1,5 +1,17 @@
-# base_k8s_ubuntu
+# K8S集群搭建
 
-base_k8s_ubuntu：构建基础box
-k8s_ubuntu/master：构建基础master
-k8s_ubuntu/node：构建基础node
+## 构建基础box
+```
+cd base_k8s_ubuntu
+./build_base_box.sh 
+```
+## 构建master
+```
+cd k8s_ubuntu/master
+vagrant up 
+```
+## 构建node
+```
+cd k8s_ubuntu/node
+vagrant up
+```
