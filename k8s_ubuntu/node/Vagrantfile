@@ -1,0 +1,19 @@
+Vagrant.configure("2") do |config|
+  $prefix_ip="192.168.10."
+  $master_ip_start = 3
+  $node_num = 2
+
+  (1..$node_num).each do |node_index|
+     config.vm.define "k8s-node-#{node_index}" do |node|
+        node.vm.box = "base-k8s-ubuntu"
+        node.vm.provision "shell", path: "../up_sh/init_environment.sh"
+        node.vm.provision "shell", path: "../up_sh/node_join.sh"
+        node.vm.network "private_network", ip: "#{$prefix_ip}#{$master_ip_start+node_index}"
+        node.vm.hostname = "k8s-node-#{node_index}"
+        node.vm.provider "virtualbox" do |v|
+          v.name = "k8s-node-#{node_index}"
+          v.customize [ "modifyvm", :id, "--uartmode1", "disconnected" ]
+        end
+     end
+  end
+end
